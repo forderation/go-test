@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"os"
 	"reflect"
 	"testing"
 	"time"
@@ -112,8 +113,8 @@ Go!`
 func TestConfigurableSleeper(t *testing.T) {
 	sleepTime := 5 * time.Second
 	spyTime := &SpyTime{}
-	sleeper := ConfigurableSleeper{sleepTime, time.Sleep}
-	sleeper.Sleep()
+	sleeper := ConfigurableSleeper{sleepTime, spyTime.Sleep}
+	Countdown(os.Stdout, &sleeper)
 	if spyTime.DurationSlept != sleepTime {
 		t.Errorf("should have slept for %v but slept for %v", sleepTime, spyTime.DurationSlept)
 	}
