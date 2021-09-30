@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	concurrency "github.com/forderation/go-test/support"
+	support "github.com/forderation/go-test/support"
 )
 
 func TestCheckWebsites(t *testing.T) {
@@ -19,7 +19,7 @@ func TestCheckWebsites(t *testing.T) {
 		"http://blog.gypsydave5.com": true,
 		"waat://furhurterwe.geds":    false,
 	}
-	got := concurrency.CheckWebsites(concurrency.MockWebsiteChecker, websites)
+	got := support.CheckWebsites(support.MockWebsiteChecker, websites)
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("Wanted %v, got %v", want, got)
 	}
@@ -31,6 +31,6 @@ func BenchmarkCheckWebsites(b *testing.B) {
 		urls[i] = fmt.Sprintf("a url")
 	}
 	for i := 0; i < b.N; i++ {
-		concurrency.CheckWebsites(concurrency.SlowStubWebsiteChecker, urls)
+		support.CheckWebsites(support.SlowStubWebsiteChecker, urls)
 	}
 }
