@@ -27,10 +27,16 @@ func TestContextServer(t *testing.T) {
 		store := &support.SpyStore{Response: data, T: t}
 		svr := support.Server(store)
 
+		timeout := 5 * time.Millisecond
 		request := httptest.NewRequest(http.MethodGet, "/", nil)
-		cancellingCtx, cancel := context.WithCancel(request.Context())
-		time.AfterFunc(5*time.Millisecond, cancel)
-		request = request.WithContext(cancellingCtx)
+		// cancellingCtx, cancel := context.WithCancel(request.Context())
+		// time.AfterFunc(timeout, cancel)
+		// request = request.WithContext(cancellingCtx)
+
+		// alternate using WithTimeout
+		timeoutCtx, cancel := context.WithTimeout(request.Context(), timeout)
+		defer cancel()
+		request = request.WithContext(timeoutCtx)
 
 		response := &support.SpyResponseWriter{}
 

@@ -11,7 +11,7 @@ type Counter struct {
 }
 
 func (c *Counter) Inc() {
-	c.mu.Lock()
+	c.mu.Lock() // prevent race condition within lock mutex
 	defer c.mu.Unlock()
 	c.value++
 }

@@ -46,7 +46,7 @@ type SpyStore struct {
 func (s *SpyStore) AssertWasCancelled() {
 	s.T.Helper()
 	if !s.Cancelled {
-		s.T.Errorf("store was not told to cancel: %v", s.Cancelled)
+		s.T.Errorf("store was not told to cancel")
 	}
 }
 
